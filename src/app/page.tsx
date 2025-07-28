@@ -2,13 +2,13 @@ import styles from "./page.module.css";
 import Intro from "./sections/Intro/Intro";
 import Certifications from "./sections/Certifications";
 import Jobs from "./sections/Jobs";
-import Projects from "./sections/Projects";
+import Projects from "./projects/Projects";
 
 
 const navLinks = [
   { id: "intro", label: "Intro" },
   { id: "jobs", label: "Jobs" },
-  { id: "projects", label: "Projects" },
+  { id: "projects", label: "Projects", href: "/projects" },
   { id: "certifications", label: "Certifications" },
 ];
 
@@ -77,6 +77,7 @@ export default function Home() {
           </li>
         </ul>
       </nav>
+      <div style={{ height: NAV_HEIGHT }}></div>
       <main
         className={styles.main}
         style={{ width: "100%", maxWidth: 800, margin: "0 auto", paddingTop: NAV_HEIGHT }}
