@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import Intro from "./sections/Intro/Intro";
-import Certifications from "./sections/Certifications";
+import FeaturedCertifications from "./sections/FeaturedCertifications";
 import Jobs from "./sections/Jobs";
 import Projects from "./projects/Projects";
 
@@ -26,7 +26,7 @@ export default function Home() {
         <Intro />
         <Jobs />
         <Projects />
-        <Certifications />
+        <FeaturedCertifications />
       </main>
       <footer className={styles.footer}>
         <span style={{ fontSize: "0.9rem" }}>&copy; {new Date().getFullYear()} Ad. All rights reserved.</span>
