@@ -18,69 +18,10 @@ export default function Home() {
   return (
     <div className={styles.page}>
       {/* Fixed, full-width navbar */}
-      <nav
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          width: "100vw",
-          background: "transparent",
-          zIndex: 100,
-          borderBottom: "1.5px solid #ffe066",
-          padding: "20px 0 18px 0",
-          boxShadow: "0 2px 12px 0 rgba(255, 217, 102, 0)",
-        }}
-      >
-        <ul
-          style={{
-            display: "flex",
-            gap: 24,
-            listStyle: "none",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: 0,
-            padding: 0,
-            fontWeight: 600,
-            fontSize: "1.15rem",
-            letterSpacing: 0.5,
-          }}
-        >
-          {navLinks.map((link) => (
-            <li key={link.id}>
-              <a
-                href={`#${link.id}`}
-                className="nav-link"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-          {/* Download Resume Button */}
-          <li>
-            <a
-              href="/resume.pdf"
-              className="nav-link nav-download"
-              download
-              title="Download Resume"
-              style={{
-                background: "#b38b00",
-                color: "#fff",
-                border: "1.5px solid #b38b00",
-                fontWeight: 700,
-                boxShadow: "0 4px 16px 0 rgba(179, 139, 0, 0.10)",
-                marginLeft: 12,
-              }}
-            >
-              Download Resume
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div style={{ height: NAV_HEIGHT }}></div>
+
       <main
         className={styles.main}
-        style={{ width: "100%", maxWidth: 800, margin: "0 auto", paddingTop: NAV_HEIGHT }}
+        style={{ width: "100%", maxWidth: 800, margin: "0 auto" }}
       >
         <Intro />
         <Jobs />
