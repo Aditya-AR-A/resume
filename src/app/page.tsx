@@ -17,29 +17,6 @@ const NAV_HEIGHT = 74; // px, adjust if needed
 export default function Home() {
   return (
     <div className={styles.page}>
-      {/* Fixed, full-width navbar */}
-
-      <nav className={styles.nav}>
-        <div className={styles.navContent}>
-          {navLinks.map((link) => (
-            <Link
-              key={link.id}
-              href={link.href || `#${link.id}`}
-              className={styles.navLink}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.navDownload}
-          >
-            Download Resume
-          </Link>
-        </div>
-      </nav>
 
       <main className={styles.main}>
         <Intro />

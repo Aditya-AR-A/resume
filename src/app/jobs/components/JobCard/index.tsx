@@ -1,13 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './styles.module.css';
 import { Job } from '@/types/jobs';
 import { Project } from '@/types/projects';
 import { formatDate } from '@/utils/dateUtils';
-import { useEffect, useState } from 'react';
+
+// Robust company logo image with fallback to /default.png
+function LogoImage({ src, alt }: { src: string; alt: string }) {
+  const [error, setError] = useState(false);
+  if (!src || error) {
+    return (
+      <Image
+        src={"/default.png"}
+        alt={alt}
+        width={64}
+        height={64}
+        className={styles.logo}
+        unoptimized
+      />
+    );
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={64}
+      height={64}
+      className={styles.logo}
+      onError={() => setError(true)}
+      unoptimized={src.startsWith('http')}
+    />
+  );
+}
 
 interface JobCardProps {
   job: Job;
@@ -57,13 +84,7 @@ export function JobCard({ job, featured = false }: JobCardProps) {
       <div className={styles.header}>
         {companyLogo && (
           <div className={styles.logoContainer}>
-            <Image
-              src={companyLogo}
-              alt={`${company} logo`}
-              width={64}
-              height={64}
-              className={styles.logo}
-            />
+            <LogoImage src={companyLogo} alt={`${company} logo`} />
           </div>
         )}
         <div className={styles.titleInfo}>

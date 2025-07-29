@@ -1,5 +1,5 @@
 .section {
-    margin-bottom: 64px;
+    margin-bottom: 48px;
     padding: 50px 100px;
 }
 
@@ -10,7 +10,7 @@
 .sectionTitle {
     color: var(--primary);
     margin-top: 40px;
-    margin-bottom: 24px;
+    margin-bottom: var(--color-secondary)px;
     padding: auto;
 }
 
@@ -18,16 +18,18 @@
     display: grid;
     gap: 32px;
     grid-template-columns: 1fr;
+    background: var(--background);
 }
 
 .featuredGrid {
     display: grid;
     grid-template-columns: 1fr;
+    background: var(--background);
     gap: 36px;
     margin-top: 24px;
     max-width: 100%;
     margin: 0 auto;
-}
+
 
 .providerSection {
     margin-top: 48px;
@@ -35,11 +37,12 @@
 
 .providerTitle {
     color: var(--primary);
-    margin-bottom: 24px;
+    margin-bottom: var(--color-secondary)px;
 }
 
 .providerGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
+    gap: var(--color-secondary)px;
+}
 }

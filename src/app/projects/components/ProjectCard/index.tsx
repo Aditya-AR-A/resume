@@ -1,167 +1,155 @@
 'use client';
-
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Project } from '@/types/projects';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import styles from './styles.module.css';
+import { useMemo } from 'react';
+
+// Robust logo/thumbnail image with fallback to /default.png
+function LogoImage({ src, alt, width = 64, height = 64, className = '' }: { src: string; alt: string; width?: number; height?: number; className?: string }) {
+  const [error, setError] = useState(false);
+  if (!src || error) {
+    return (
+      <Image
+        src={'/default.png'}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        unoptimized
+      />
+    );
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      onError={() => setError(true)}
+      unoptimized={src.startsWith('http')}
+    />
+  );
+}
 
 interface ProjectCardProps {
   project: Project;
+  featured?: boolean;
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
-  const {
-    id,
-    name,
-    type,
-    shortDescription,
-    thumbnail,
-    skills,
-    status,
-    metrics,
-    links,
-    model,
-    deployment,
-    visualization,
-    demo
-  } = project;
-
-  const typeClass = type.replace('-', '') as keyof typeof styles;
-  
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'active':
-        return '🟢';
-      case 'completed':
-        return '✅';
-      case 'in-progress':
-        return '🚧';
-      case 'archived':
-        return '📦';
-      default:
-        return '•';
+export function ProjectCard({ project, featured }: ProjectCardProps) {
+  // Determine thumbnail path
+  const { thumbPath, fallback } = useMemo(() => {
+    let thumbnail = project.thumbnail;
+    if (!thumbnail && project.id) {
+      thumbnail = `${project.id}-thumbnail.jpg`;
     }
-  };
+    return {
+      thumbPath: `/projects/${encodeURIComponent(thumbnail ?? "fallback.jpg")}`,
+      fallback: "/projects/fallback.jpg"
+    };
+  }, [project.thumbnail, project.id]);
 
-  const renderModelInfo = () => {
-    if (!model) return null;
-    return (
-      <div className={styles.modelInfo}>
-        <div className={styles.modelTitle}>Model Information</div>
-        <div className={styles.modelMetrics}>
-          {model.metrics && Object.entries(model.metrics).map(([key, value]) => (
-            <div key={key} className={styles.metric}>
-              <div className={styles.metricValue}>{value}</div>
-              <div className={styles.metricLabel}>
-                {key.replace(/([A-Z])/g, ' $1').trim()}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderVisualization = () => {
-    if (!visualization) return null;
-    return (
-      <div className={styles.visualization}>
-        {demo?.type === 'embedded' && (demo.powerbiEmbedUrl || demo.tableauEmbedUrl) && (
-          <div className={styles.embedContainer}>
-            <iframe
-              src={demo.powerbiEmbedUrl || demo.tableauEmbedUrl}
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              allowFullScreen
-            />
-          </div>
-        )}
-      </div>
-    );
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short' 
+    });
   };
 
   return (
-    <div className={styles.card}>
-      {thumbnail && (
-        <div className={styles.thumbnail}>
-          <Image
-            src={thumbnail}
-            alt={`${name} thumbnail`}
-            fill
-            className={styles.thumbnailImage}
-          />
+    <div className={`${styles.card} ${featured ? styles.featured : ''}`}>
+      <div className={styles.imageContainer}>
+        <LogoImage
+          src={thumbPath}
+          alt={project.name + " project thumbnail"}
+          width={featured ? 400 : 280}
+          height={featured ? 250 : 180}
+          className={`${styles.image} ${featured ? styles.featured : ''}`}
+        />
+        <div className={styles.statusBadge}>
+          <span className={`${styles.status} ${styles[project.status]}`}>
+            {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+          </span>
         </div>
-      )}
-
+      </div>
+      
       <div className={styles.content}>
-        <div className={styles.header}>
-          <div className={`${styles.type} ${styles[typeClass]}`}>
-            {type.split('-').map(word => 
-              word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ')}
-          </div>
-          <h3 className={styles.title}>{name}</h3>
-          <div className={`${styles.status} ${styles[status]}`}>
-            {getStatusIcon(status)} {status.charAt(0).toUpperCase() + status.slice(1)}
-          </div>
+        <div className={styles.title}>
+          {project.name}
         </div>
-
-        <p className={styles.description}>
-          {shortDescription || project.description}
-        </p>
-
-        <div className={styles.skills}>
-          {skills.slice(0, 5).map((skill) => (
+        
+        <div className={styles.category}>
+          {project.category}
+        </div>
+        
+        <div className={styles.description}>
+          {project.shortDescription || project.description}
+        </div>
+        
+        <div className={styles.skillsContainer}>
+          {project.skills.slice(0, 6).map((skill: string) => (
             <span key={skill} className={styles.skill}>
               {skill}
             </span>
           ))}
-          {skills.length > 5 && (
-            <span className={styles.skill}>+{skills.length - 5}</span>
+          {project.skills.length > 6 && (
+            <span className={styles.skillMore}>
+              +{project.skills.length - 6} more
+            </span>
           )}
         </div>
-
-        {metrics && metrics.length > 0 && (
+        
+        <div className={styles.dateRange}>
+          {formatDate(project.startDate)}
+          {project.endDate && ` - ${formatDate(project.endDate)}`}
+          {project.status === 'active' && !project.endDate && ' - Present'}
+        </div>
+        
+        <div className={styles.links}>
+          {project.links?.live && (
+            <a
+              href={project.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.link}
+            >
+              Live Demo
+            </a>
+          )}
+          {project.links?.github && (
+            <a
+              href={project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.link}
+            >
+              GitHub
+            </a>
+          )}
+          {project.links?.demo && (
+            <a
+              href={project.links.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.link}
+            >
+              Demo
+            </a>
+          )}
+        </div>
+        
+        {project.model?.metrics && (
           <div className={styles.metrics}>
-            {metrics.map((metric, index) => (
-              <div key={index} className={styles.metric}>
-                <div className={styles.metricValue}>{metric.value}</div>
-                <div className={styles.metricLabel}>{metric.label}</div>
+            {Object.entries(project.model.metrics).slice(0, 2).map(([key, value]) => (
+              <div key={key} className={styles.metric}>
+                <span className={styles.metricLabel}>{key}:</span>
+                <span className={styles.metricValue}>{value}</span>
               </div>
             ))}
           </div>
         )}
-
-        {renderModelInfo()}
-        {renderVisualization()}
-
-        {deployment?.status === 'active' && demo?.type === 'interactive' && (
-          <Link href={demo.url || ''} className={styles.demoButton}>
-            Try Live Demo
-          </Link>
-        )}
-
-        <div className={styles.links}>
-          {links && Object.entries(links).map(([key, url]) => {
-            if (!url) return null;
-            return (
-              <Link
-                key={key}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.link}
-              >
-                {key.charAt(0).toUpperCase() + key.slice(1)}
-              </Link>
-            );
-          })}
-          <Link href={`/projects/${id}`} className={styles.link}>
-            View Details
-          </Link>
-        </div>
       </div>
     </div>
   );

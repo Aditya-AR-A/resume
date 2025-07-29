@@ -24,16 +24,13 @@ export default function Jobs() {
     loadJobs();
   }, []);
 
-  // Group by company with proper typing
+  // Group by company for layout
   const grouped = jobs.reduce<GroupedJobs>((acc, job) => {
     const company = job.company;
     if (!acc[company]) acc[company] = [];
     acc[company].push(job);
     return acc;
   }, {});
-
-  // Featured jobs
-  const featured = jobs.filter((j) => j.featured);
 
   // Sort jobs within each company by start date (most recent first)
   Object.values(grouped).forEach(companyJobs => {
@@ -45,36 +42,16 @@ export default function Jobs() {
   return (
     <section id="jobs" className={styles.section}>
       <h2 className={styles.title}>Work Experience</h2>
-
-      {/* Featured Jobs */}
-      {featured.length > 0 && (
-        <>
-          <h3 className={styles.sectionTitle}>Featured Positions</h3>
-          <div className={styles.featuredGrid}>
-            {featured.map(job => (
+      {Object.entries(grouped).map(([company, companyJobs]) => (
+        <div key={company} className={styles.companySection}>
+          <h3 className={styles.companyTitle}>{company}</h3>
+          <div className={styles.companyGrid}>
+            {companyJobs.map(job => (
               <JobCard key={job.id} job={job} featured />
             ))}
           </div>
-        </>
-      )}
-
-      {/* Grouped by Company */}
-      {Object.entries(grouped).map(([company, companyJobs]) => {
-        const nonFeaturedJobs = companyJobs.filter(
-          j => !j.featured && !featured.some(f => f.id === j.id)
-        );
-        if (nonFeaturedJobs.length === 0) return null;
-        return (
-          <div key={company} className={styles.companySection}>
-            <h3 className={styles.companyTitle}>{company}</h3>
-            <div className={styles.companyGrid}>
-              {nonFeaturedJobs.map(job => (
-                <JobCard key={job.id} job={job} />
-              ))}
-            </div>
-          </div>
-        );
-      })}
+        </div>
+      ))}
     </section>
   );
 }

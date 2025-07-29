@@ -2,19 +2,23 @@
   padding: 48px 0;
   max-width: 1200px;
   margin: 0 auto;
+  box-shadow: var(--shadow-sm);
 }
 
 .title {
   font-size: 2rem;
   font-weight: 700;
-  color: #24292e;
+  color: var(--color-secondary);
   margin-bottom: 32px;
   text-align: center;
+  border: 1px solid var(--border-primary);
+  background: var(--background-alt);
 }
 
 .featuredGrid {
   display: grid;
   grid-template-columns: 1fr;
+  background: var(--background);
   gap: 32px;
   margin-bottom: 48px;
 }
@@ -22,7 +26,7 @@
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #24292e;
+  color: var(--color-secondary);
   margin: 32px 0 24px;
 }
 
@@ -33,7 +37,7 @@
 .companyTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #0366d6;
+  color: var(--color-primary-light);
   margin-bottom: 20px;
 }
 
@@ -46,6 +50,7 @@
 @media (max-width: 768px) {
   .section {
     padding: 32px 16px;
+    background: var(--background);
   }
 
   .companyGrid {

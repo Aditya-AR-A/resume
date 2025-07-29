@@ -1,8 +1,8 @@
 .card {
-  background: #f8f9fa;
-  border: 1.5px solid #e9ecef;
+  background: var(--color-primary-lighter);
+  border: 1.5px solid var(--border-primary);
   border-radius: 16px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-md);
   transition: transform 0.2s ease-in-out;
 }
 
@@ -14,8 +14,8 @@
   padding: 32px;
   margin: 0 auto;
   max-width: 100%;
-  background: #f1f8ff;
-  border-color: #c8e1ff;
+  background: var(--color-primary-lightest);
+  border-color: var(--border-primary);
 }
 
 .card:not(.featured) {
@@ -35,8 +35,8 @@
   height: 64px;
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid #e9ecef;
+  background: var(--background);
+  border: 1px solid var(--border-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,27 +55,27 @@
 .company {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0366d6;
+  color: var(--color-primary);
   margin-bottom: 4px;
 }
 
 .title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #24292e;
+  color: var(--color-secondary);
   margin-bottom: 4px;
 }
 
 .duration {
   font-size: 0.95rem;
-  color: #586069;
+  color: var(--color-primary);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .currentBadge {
-  background: #2ea44f;
+  background: var(--color-success);
   color: white;
   font-size: 0.8rem;
   padding: 2px 8px;
@@ -84,7 +84,7 @@
 }
 
 .description {
-  color: #24292e;
+  color: var(--color-secondary);
   font-size: 1rem;
   line-height: 1.6;
   margin: 16px 0;
@@ -97,7 +97,7 @@
 .sectionTitle {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #24292e;
+  color: var(--color-secondary);
   margin-bottom: 12px;
 }
 
@@ -109,9 +109,9 @@
 }
 
 .skill {
-  background: #f1f8ff;
-  color: #0366d6;
-  border: 1px solid #c8e1ff;
+  background: var(--color-primary-lightest);
+  color: var(--color-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 4px 12px;
   font-size: 0.9rem;
@@ -126,7 +126,7 @@
 }
 
 .link {
-  color: #0366d6;
+  color: var(--color-primary);
   text-decoration: none;
   font-size: 0.95rem;
   display: flex;
@@ -145,7 +145,7 @@
 }
 
 .listItem {
-  color: #24292e;
+  color: var(--color-secondary);
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 8px;
@@ -155,7 +155,7 @@
 
 .listItem::before {
   content: "•";
-  color: #0366d6;
+  color: var(--color-primary);
   position: absolute;
   left: 8px;
 }
@@ -168,8 +168,8 @@
 }
 
 .project {
-  background: white;
-  border: 1px solid #e1e4e8;
+  background: var(--background);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 16px;
 }
@@ -177,12 +177,12 @@
 .projectTitle {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #24292e;
+  color: var(--color-secondary);
   margin-bottom: 8px;
 }
 
 .projectDescription {
-  color: #586069;
+  color: var(--color-primary);
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 12px;
@@ -196,8 +196,8 @@
 }
 
 .projectSkill {
-  background: #f6f8fa;
-  color: #586069;
+  background: var(--color-primary-lightest);
+  color: var(--color-primary);
   border-radius: 10px;
   padding: 2px 8px;
   font-size: 0.85rem;

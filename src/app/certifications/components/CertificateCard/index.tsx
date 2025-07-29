@@ -1,7 +1,37 @@
+'use client';
 import { Certificate } from '@/types/certificates';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from './styles.module.css';
 import { useMemo } from 'react';
+
+// Robust logo/thumbnail image with fallback to /default.png
+function LogoImage({ src, alt, width = 64, height = 64, className = '' }: { src: string; alt: string; width?: number; height?: number; className?: string }) {
+  const [error, setError] = useState(false);
+  if (!src || error) {
+    return (
+      <Image
+        src={'/default.png'}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        unoptimized
+      />
+    );
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      onError={() => setError(true)}
+      unoptimized={src.startsWith('http')}
+    />
+  );
+}
 
 interface CertificateCardProps {
   cert: Certificate;
@@ -24,16 +54,12 @@ export function CertificateCard({ cert, featured }: CertificateCardProps) {
   return (
     <div className={`${styles.card} ${featured ? styles.featured : ''}`}>
       <div className={styles.imageContainer}>
-        <Image
+        <LogoImage
           src={thumbPath}
           alt={cert.name + " certificate thumbnail"}
           width={featured ? 961 : 220}
           height={featured ? 600 : 150}
           className={`${styles.image} ${featured ? styles.featured : ''}`}
-          onError={() => {
-            const imgElement = document.querySelector(`[alt="${cert.name} certificate thumbnail"]`) as HTMLImageElement;
-            if (imgElement) imgElement.src = fallback;
-          }}
         />
       </div>
       <div className={styles.title}>
