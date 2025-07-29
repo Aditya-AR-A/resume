@@ -1,0 +1,45 @@
+.section {
+    margin-bottom: 64px;
+    padding: 50px 100px;
+}
+
+.title {
+    color: var(--primary);
+}
+
+.sectionTitle {
+    color: var(--primary);
+    margin-top: 40px;
+    margin-bottom: 24px;
+    padding: auto;
+}
+
+.grid {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+}
+
+.featuredGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-top: 24px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.providerSection {
+    margin-top: 48px;
+}
+
+.providerTitle {
+    color: var(--primary);
+    margin-bottom: 24px;
+}
+
+.providerGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}

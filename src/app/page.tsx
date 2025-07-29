@@ -1,15 +1,15 @@
 import styles from "./page.module.css";
 import Intro from "./sections/Intro/Intro";
 import FeaturedCertifications from "./sections/FeaturedCertifications";
-import Jobs from "./sections/Jobs";
+import Jobs from "./jobs/Jobs";
 import Projects from "./projects/Projects";
-
+import Link from "next/link";
 
 const navLinks = [
   { id: "intro", label: "Intro" },
-  { id: "jobs", label: "Jobs" },
+  { id: "jobs", label: "Experience", href: "/jobs" },
   { id: "projects", label: "Projects", href: "/projects" },
-  { id: "certifications", label: "Certifications" },
+  { id: "certifications", label: "Certifications", href: "/certifications" },
 ];
 
 const NAV_HEIGHT = 74; // px, adjust if needed
@@ -19,58 +19,53 @@ export default function Home() {
     <div className={styles.page}>
       {/* Fixed, full-width navbar */}
 
-      <main
-        className={styles.main}
-        style={{ width: "100%", maxWidth: 800, margin: "0 auto" }}
-      >
+      <nav className={styles.nav}>
+        <div className={styles.navContent}>
+          {navLinks.map((link) => (
+            <Link
+              key={link.id}
+              href={link.href || `#${link.id}`}
+              className={styles.navLink}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.navDownload}
+          >
+            Download Resume
+          </Link>
+        </div>
+      </nav>
+
+      <main className={styles.main}>
         <Intro />
-        <Jobs />
-        <Projects />
-        <FeaturedCertifications />
+        <section className={styles.preview}>
+          <Jobs />
+          <Link href="/jobs" className={styles.viewMore}>
+            View All Experience
+          </Link>
+        </section>
+        <section className={styles.preview}>
+          <Projects />
+          <Link href="/projects" className={styles.viewMore}>
+            View All Projects
+          </Link>
+        </section>
+        <section className={styles.preview}>
+          <FeaturedCertifications />
+          <Link href="/certifications" className={styles.viewMore}>
+            View All Certifications
+          </Link>
+        </section>
       </main>
+
       <footer className={styles.footer}>
-        <span style={{ fontSize: "0.9rem" }}>&copy; {new Date().getFullYear()} Ad. All rights reserved.</span>
+        <span>&copy; {new Date().getFullYear()} Ad. All rights reserved.</span>
       </footer>
-      {/* Smooth scroll behavior and nav-link hover effect */}
-      <style>{`
-        html { scroll-behavior: smooth; }
-        .nav-link {
-          display: inline-block;
-          text-decoration: none;
-          color: #b38b00;
-          background: #fffbe6;
-          border: 1.5px solid #ffe066;
-          border-radius: 999px;
-          padding: 8px 28px;
-          margin: 0 2px;
-          font-weight: 600;
-          font-size: 1.08rem;
-          letter-spacing: 0.5px;
-          box-shadow: 0 2px 8px 0 rgba(255, 217, 102, 0.08);
-          transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s;
-        }
-        .nav-link:hover {
-          color: #fff;
-          background: #b38b00;
-          border: 1.5px solid #b38b00;
-          box-shadow: 0 4px 16px 0 rgba(179, 139, 0, 0.10);
-        }
-        .nav-download {
-          background: #b38b00;
-          color: #fff;
-          border: 1.5px solid #b38b00;
-          font-weight: 700;
-          box-shadow: 0 4px 16px 0 rgba(179, 139, 0, 0.10);
-        }
-        .nav-download:hover {
-          background: #997000;
-          border: 1.5px solid #997000;
-        }
-          section[id] {
-          scroll-margin-top: 108}px;
-        }
-      
-      `}</style>
     </div>
   );
 }

@@ -15,9 +15,6 @@ export default function Projects() {
             const Component = mod.default;
             return (
               <div key={p.name}>
-                <Link href={`/projects/items/${p.name.toLowerCase()}`} style={{ textDecoration: "none" }}>
-                  <h3 style={{ margin: 0, color: "#b38b00", cursor: "pointer" }}>{p.name}</h3>
-                </Link>
                 <Component />
               </div>
             );
